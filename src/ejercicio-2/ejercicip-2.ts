@@ -1,7 +1,11 @@
 import * as fs from 'fs';
-import * as yargs from 'yargs';
+import yargs from "yargs";
+import path from "path";
+import chalk, { ChalkInstance } from "chalk";
+import { hideBin } from "yargs/helpers";
 
-const argv = yargs
+
+yargs(hideBin(process.argv))
   .option('lines', {
     alias: 'l',
     describe: 'Mostrar número de líneas',
@@ -20,12 +24,14 @@ const argv = yargs
   .help()
   .alias('help', 'h').argv;
 
-if (argv._.length !== 1) {
+console.log(process.argv);
+
+if (process.argv.length !== 1) {
   console.log('Por favor, especifique un archivo');
   process.exit(1);
 }
 
-const filePath = argv._[0];
+const filePath = process.argv[0];
 
 if (!fs.existsSync(filePath)) {
   console.log(`El archivo ${filePath} no existe`);
@@ -49,19 +55,19 @@ stream.on('data', (data: string) => {
 });
 
 stream.on('end', () => {
-  if (argv.lines) {
+  if (lines) {
     console.log(`Líneas: ${lines}`);
   }
 
-  if (argv.words) {
+  if (words) {
     console.log(`Palabras: ${words}`);
   }
 
-  if (argv.characters) {
+  if (characters) {
     console.log(`Caracteres: ${characters}`);
   }
 
-  if (!argv.lines && !argv.words && !argv.characters) {
+  if (!lines && !words && !characters) {
     console.log(`Líneas: ${lines}`);
     console.log(`Palabras: ${words}`);
     console.log(`Caracteres: ${characters}`);
