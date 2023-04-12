@@ -1,10 +1,20 @@
 import {watchFile} from 'fs';
 import {spawn} from 'child_process';
 
-watchFile('./ejercicio-1/helloworld.txt', (curr, prev) => {
+watchFile('helloworld.txt', (curr, prev) => {
   console.log(`File was ${prev.size} bytes before it was modified.`);
   console.log(`Now file is ${curr.size} bytes.`);
 
-  const cat = spawn('cat', ['-n', './ejercicio-1/helloworld.txt']);
-  cat.stdout.pipe(process.stdout);
-});//
+  const wc = spawn('wc', ['helloworld.txt']);
+
+  let wcOutput = '';
+  wc.stdout.on('data', (piece) => wcOutput += piece);
+
+  wc.on('close', () => {
+    const wcOutputAsArray = wcOutput.split(/\s+/);
+    console.log(wcOutputAsArray)
+    console.log(`File helloworld.txt has ${wcOutputAsArray[0]} lines`);
+    console.log(`File helloworld.txt has ${wcOutputAsArray[1]} words`);
+    console.log(`File helloworld.txt has ${wcOutputAsArray[2]} characters`);
+  });
+});
