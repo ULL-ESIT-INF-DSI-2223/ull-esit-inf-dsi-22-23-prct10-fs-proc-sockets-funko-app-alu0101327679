@@ -5,9 +5,6 @@ import fs from "fs";
 import { SiPipe } from "./Sipipe.js";
 
 
-
-
-
 yargs(hideBin(process.argv))
 
 .command(
@@ -45,7 +42,7 @@ yargs(hideBin(process.argv))
     fichero: {
       description: "Fichero a leer",
       type: "string",
-      demandOption: true,
+      demandOption: true,     
     },
   },
   (argv) => {
