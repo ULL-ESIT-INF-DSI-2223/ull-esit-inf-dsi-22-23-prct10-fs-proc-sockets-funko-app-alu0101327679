@@ -27,3 +27,21 @@
 
 
 # Ejercicio 1
+
+Traza de ejecución:
+
+1. El usuario ejecuta el programa con el comando "node program.ts helloworld.txt"
+2. El programa comprueba si se han pasado exactamente 3 argumentos en la línea de comandos. En este caso, sí se han pasado exactamente 3 argumentos, por lo que el programa continúa.
+3. El programa utiliza la función access para comprobar si el archivo helloworld.txt existe. Si existe, se muestra un mensaje en la consola indicando que se está observando el archivo.
+4. El programa utiliza la función watch para observar el archivo helloworld.txt en busca de cambios.
+5. El programa muestra un mensaje en la consola indicando que el archivo helloworld.txt ya no se está observando.
+6. El usuario modifica el archivo helloworld.txt.
+7. La función watch detecta el cambio en el archivo helloworld.txt y emite un evento de cambio.
+8. Se agrega un manejador de eventos a la cola de manejadores para el evento de cambio del archivo helloworld.txt.
+9. El manejador de eventos para el evento de cambio del archivo helloworld.txt se ejecuta y muestra un mensaje en la consola indicando que el archivo helloworld.txt ha sido modificado.
+10. El usuario modifica el archivo helloworld.txt de nuevo.
+11. La función watch detecta el cambio en el archivo helloworld.txt y emite otro evento de cambio.
+12. Se agrega otro manejador de eventos a la cola de manejadores para el evento de cambio del archivo helloworld.txt.
+13. El manejador de eventos para el evento de cambio del archivo helloworld.txt se ejecuta de nuevo y muestra otro mensaje en la consola indicando que el archivo helloworld.txt ha sido modificado.
+
+# Ejercicio 2

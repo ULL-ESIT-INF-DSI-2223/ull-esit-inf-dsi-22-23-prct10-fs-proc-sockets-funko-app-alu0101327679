@@ -55,6 +55,26 @@
 <a href="#ejercicio-1" id="ejercicio-1" style="color: inherit; text-decoration: none;">
   <h1>Ejercicio 1</h1>
 </a>
+<p>Traza de ejecución:</p>
+<ol>
+<li>El usuario ejecuta el programa con el comando &quot;node program.ts helloworld.txt&quot;</li>
+<li>El programa comprueba si se han pasado exactamente 3 argumentos en la línea de comandos. En este caso, sí se han pasado exactamente 3 argumentos, por lo que el programa continúa.</li>
+<li>El programa utiliza la función access para comprobar si el archivo helloworld.txt existe. Si existe, se muestra un mensaje en la consola indicando que se está observando el archivo.</li>
+<li>El programa utiliza la función watch para observar el archivo helloworld.txt en busca de cambios.</li>
+<li>El programa muestra un mensaje en la consola indicando que el archivo helloworld.txt ya no se está observando.</li>
+<li>El usuario modifica el archivo helloworld.txt.</li>
+<li>La función watch detecta el cambio en el archivo helloworld.txt y emite un evento de cambio.</li>
+<li>Se agrega un manejador de eventos a la cola de manejadores para el evento de cambio del archivo helloworld.txt.</li>
+<li>El manejador de eventos para el evento de cambio del archivo helloworld.txt se ejecuta y muestra un mensaje en la consola indicando que el archivo helloworld.txt ha sido modificado.</li>
+<li>El usuario modifica el archivo helloworld.txt de nuevo.</li>
+<li>La función watch detecta el cambio en el archivo helloworld.txt y emite otro evento de cambio.</li>
+<li>Se agrega otro manejador de eventos a la cola de manejadores para el evento de cambio del archivo helloworld.txt.</li>
+<li>El manejador de eventos para el evento de cambio del archivo helloworld.txt se ejecuta de nuevo y muestra otro mensaje en la consola indicando que el archivo helloworld.txt ha sido modificado.</li>
+</ol>
+
+<a href="#ejercicio-2" id="ejercicio-2" style="color: inherit; text-decoration: none;">
+  <h1>Ejercicio 2</h1>
+</a>
 </div></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
