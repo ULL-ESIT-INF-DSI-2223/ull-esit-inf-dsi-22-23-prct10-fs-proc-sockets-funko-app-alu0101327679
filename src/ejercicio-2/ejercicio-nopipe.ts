@@ -2,6 +2,8 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import chalk, { ChalkInstance } from "chalk";
 import fs from "fs";
+import { NoPipe } from "./Nopipe.js";
+
 
 
 
@@ -19,20 +21,7 @@ yargs(hideBin(process.argv))
     },
   },
   (argv) => {
-    // let collectionPrueba = new FuncosCollection([], argv.); 
-    //  
-    const filename = argv.fichero;
-    const filePath = `./ficheros/${filename}`;
-
-    if (fs.existsSync(filePath)) {
-      //console.log(chalk.green.bold(`El fichero ${filename} existe`));
-      const file = fs.readFileSync(filePath, "utf-8");
-      const lineas = file.split("\n");
-      const cantidad = lineas.length;
-      console.log(`El fichero ${filename} tiene chalk.green.bold(${cantidad}) lineas`);
-    }else {
-      console.log(chalk.red.bold(`El fichero ${filename} no existe`));
-    }
+    new NoPipe().contarLineas(argv.fichero);
   }
 )
 .command(
@@ -46,20 +35,7 @@ yargs(hideBin(process.argv))
     },
   },
   (argv) => {
-    // let collectionPrueba = new FuncosCollection([], argv.); 
-    //  
-    const filename = argv.fichero;
-    const filePath = `./ficheros/${filename}`;
-
-    if (fs.existsSync(filePath)) {
-      //console.log(chalk.green.bold(`El fichero ${filename} existe`));
-      const file = fs.readFileSync(filePath, "utf-8");
-      const palabras = file.split(/\s+/);
-      const cantidad = palabras.length;
-      console.log(chalk.green.bold(`El fichero ${filename} tiene ${cantidad} palabras`));
-    }else {
-      console.log(chalk.red.bold(`El fichero ${filename} no existe`));
-    }
+    new NoPipe().contarPalabras(argv.fichero);
   }
 )
 .command(
@@ -73,20 +49,7 @@ yargs(hideBin(process.argv))
     },
   },
   (argv) => {
-    // let collectionPrueba = new FuncosCollection([], argv.); 
-    //  
-    const filename = argv.fichero;
-    const filePath = `./ficheros/${filename}`;
-
-    if (fs.existsSync(filePath)) {
-      //console.log(chalk.green.bold(`El fichero ${filename} existe`));
-      const file = fs.readFileSync(filePath, "utf-8");
-      const caracteres = file.split("");
-      const cantidad = caracteres.length;
-      console.log(chalk.green.bold(`El fichero ${filename} tiene ${cantidad} caracteres`));
-    }else {
-      console.log(chalk.red.bold(`El fichero ${filename} no existe`));
-    }
+    new NoPipe().contarCaracteres(argv.fichero);
   }
 )
 .command(
@@ -100,20 +63,9 @@ yargs(hideBin(process.argv))
     },
   },
   (argv) => {
-    // let collectionPrueba = new FuncosCollection([], argv.); 
-    //  
-    const filename = argv.fichero;
-    const filePath = `./ficheros/${filename}`;
-
-    if (fs.existsSync(filePath)) {
-      //console.log(chalk.green.bold(`El fichero ${filename} existe`));
-      const file = fs.readFileSync(filePath, "utf-8");
-      const caracteres = file.split("");
-      const cantidad = caracteres.length;
-      console.log(chalk.green.bold(`El fichero ${filename} tiene ${cantidad} caracteres`));
-    }else {
-      console.log(chalk.red.bold(`El fichero ${filename} no existe`));
-    }
+    new NoPipe().contarLineas(argv.fichero);
+    new NoPipe().contarPalabras(argv.fichero);
+    new NoPipe().contarCaracteres(argv.fichero);
   }
 )
 .help().argv;
