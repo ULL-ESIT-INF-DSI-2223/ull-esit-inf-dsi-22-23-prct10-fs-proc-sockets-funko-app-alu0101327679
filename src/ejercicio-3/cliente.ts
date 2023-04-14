@@ -4,18 +4,33 @@ import {EventEmitter} from 'events';
 
 const client = net.connect({port: 60300});
 
-client.write('Hello from client!');
-
+let wholedata = ''
 client.on('data', (dataChunk) => {
-  console.log(dataChunk.toString());
-  client.destroy()
+  wholedata += dataChunk;
+  // console.log(dataChunk.toString());
+
+  const data = JSON.parse(wholedata);
+
+  if (data.event === 'error') {
+    console.log("Error: " + data.data);
+  }else if (data.event === 'working') {
+    console.log("Working...");
+  }
+
+  if (data.event === 'end') {
+    console.log(data.data);
+    client.destroy();
+  }
 })
+
+client.end()
+
 
 
 //desconectar cliente
-client.on('end', () => {
-  console.log('Disconnected from server');
-})
+// client.on('end', () => {
+//   console.log('Disconnected from server');
+// })
 
 
 /**
