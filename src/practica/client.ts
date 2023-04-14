@@ -4,8 +4,6 @@ import {MessageEventEmitterClient} from './eventEmiter.js';
 
 const client = new MessageEventEmitterClient(connect({port: 60300}));
 
-
-
 client.on('message', (message) => {
   if (message.type === 'output') {
     console.log(`Command output:\n${message.message}`);
