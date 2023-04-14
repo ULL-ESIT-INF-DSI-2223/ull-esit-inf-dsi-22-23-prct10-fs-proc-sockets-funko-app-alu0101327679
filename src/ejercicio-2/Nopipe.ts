@@ -26,10 +26,10 @@ export class NoPipe {
       const lineas = file.split('\n');
       const cantidad = lineas.length;
   
-      console.log(`El fichero ${ruta} tiene ${cantidad} lineas`);
+      console.log(chalk.blue.bold(`El fichero ${ruta} tiene ${chalk.green.bold(cantidad)} lineas`));
       return `El fichero ${ruta} tiene ${cantidad} lineas`;
     } else {
-      console.log(`El fichero ${ruta} no existe`);
+      console.log(chalk.red.bold(`El fichero ${ruta} no existe`));
       return `El fichero ${ruta} no existe`;
     }
   }
@@ -46,7 +46,7 @@ export class NoPipe {
       const file = fs.readFileSync(filePath, "utf-8");
       const palabras = file.split(/\s+/);
       const cantidad = palabras.length;
-      console.log(chalk.green.bold(`El fichero ${ruta} tiene ${cantidad} palabras`));
+      console.log(chalk.blue.bold(`El fichero ${ruta} tiene ${chalk.bold.green(cantidad)} palabras`));
       return `El fichero ${ruta} tiene ${cantidad} palabras`
     }else {
       console.log(chalk.red.bold(`El fichero ${ruta} no existe`));
@@ -68,7 +68,7 @@ export class NoPipe {
       const file = fs.readFileSync(filePath, "utf-8");
       const caracteres = file.split("");
       const cantidad = caracteres.length;
-      console.log(chalk.green.bold(`El fichero ${ruta} tiene ${cantidad} caracteres`));
+      console.log(chalk.blue.bold(`El fichero ${ruta} tiene ${chalk.green.bold(cantidad)} caracteres`));
       return `El fichero ${ruta} tiene ${cantidad} caracteres`
     }else {
       console.log(chalk.red.bold(`El fichero ${ruta} no existe`));

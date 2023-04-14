@@ -68,4 +68,41 @@ yargs(hideBin(process.argv))
     new NoPipe().contarCaracteres(argv.fichero);
   }
 )
+.command(
+  "combinatoria",
+  "Combinatoria de comandos",
+  {
+    fichero: {
+      description: "Fichero a leer",
+      type: "string",
+      demandOption: true,
+    },
+    lineas: {
+      description: "Fichero a leer",
+      type: "string",
+      demandOption: false,
+    },
+    palabras: {
+      description: "Fichero a leer",
+      type: "string",
+      demandOption: false,
+    },
+    caracteres: {
+      description: "Fichero a leer",
+      type: "string",
+      demandOption: false,
+    },
+  },
+  (argv) => {
+    if(argv.lineas !== undefined){
+      new NoPipe().contarLineas(argv.fichero)
+    }
+    if(argv.palabras !== undefined){
+      new NoPipe().contarPalabras(argv.fichero)
+    }
+    if(argv.caracteres !== undefined){
+      new NoPipe().contarCaracteres(argv.fichero)
+    }
+  }
+)
 .help().argv;
