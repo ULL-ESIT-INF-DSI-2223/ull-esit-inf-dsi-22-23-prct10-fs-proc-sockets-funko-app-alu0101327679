@@ -18,10 +18,10 @@ enum Comandos {
 
     let wholeData = '';
     connection.on('data', (dataChunk) => {
-      wholeData += dataChunk;
+      // wholeData += dataChunk;
+      wholeData = dataChunk.toString();
       let separatedData: string[] = wholeData.split(' ');
       console.log(separatedData);
-      //if separatedData[3] is not a valid command then return
 
       if(separatedData[0] != 'node' || separatedData[1] != 'dist/ejercicio-3/Funko\\' || separatedData[2] != 'Pops/comand.js'){ 
         console.log('Error: You must use the command "node dist/ejercicio-3/Funko Pops/comand.js"'); //node dist/ejercicio-3/Funco Pops/comand.js
@@ -46,6 +46,7 @@ enum Comandos {
         }
         console.log(chalk.white(stdout));
         connection.write(stdout);
+        wholeData = '';
       })
 
       //cerrar la conexion con el cliente
