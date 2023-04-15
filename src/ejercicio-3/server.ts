@@ -1,95 +1,75 @@
-import { exec } from "child_process";
 import net from "net";
-import chalk from "chalk";
-import { Tipo } from "./Funko Pops/tipo.js";
+import { watchFile } from "fs";
+import { Funko } from "./Funko Pops/funco.js";
+import { FuncosCollection } from "./Funko Pops/funkoCollection.js";
 
-enum Comandos {
-  add = "add",
-  listar = "listar",
-  eliminar = "eliminar",
-  mostrar = "mostrar",
-  modificar = "modificar",
-}
+export type ResponseType = {
+  type: "add" | "update" | "remove" | "read" | "list";
+  success: boolean;
+  funkoPops?: Funko[];
+};
 
 net
   .createServer((connection) => {
-    console.log("A client has connected.");
+    console.log("Client connected.");
 
-    let wholeData = "";
-    connection.on("data", (dataChunk) => {
-      wholeData = "";
-      wholeData += dataChunk;
-      // wholeData = dataChunk.toString();
-      let separatedData: string[] = wholeData.split(" ");
-      console.log("Datos eparados: \n", separatedData);
-
-      /**
-       * Comprueba que el comando introducido sea correcto
-       */
-      if (
-        separatedData[0] != "node" ||
-        separatedData[1] != "dist/ejercicio-3/Funko\\" ||
-        separatedData[2] != "Pops/comand.js"
-      ) {
-        console.log(
-          'Error: You must use the command "node dist/ejercicio-3/Funko Pops/comand.js"'
-        ); //node dist/ejercicio-3/Funco Pops/comand.js
-        connection.write(
-          'Error: You must use the command "node dist/ejercicio-3/Funko Pops/comand.js"\n'
-        );
-        return;
-      }
-
-      /**
-       * Comprueba que la opcion del comando introducido sea correcta
-       */
-      if (
-        separatedData[3] !== Comandos.add &&
-        separatedData[3] !== Comandos.listar &&
-        separatedData[3] !== Comandos.eliminar &&
-        separatedData[3] !== Comandos.mostrar &&
-        separatedData[3] !== Comandos.modificar
-      ) {
-        console.log("Error: " + separatedData[3] + " is not a valid command");
-        connection.write(
-          "Error: " + separatedData[3] + " is not a valid command\n"
-        );
-        return;
-      }
-
-      console.log("Datos intorducidos: \n", wholeData);
-
-      /**
-       *
-       */
-      exec(wholeData, (err, stdout, stderr) => {
-        if (err) {
-          console.error(err);
-          connection.write("Error(err):  " + err);
-          return;
-        }
-        if (stderr) {
-          console.error(stderr);
-          connection.write("Error(stderr): " + stderr);
-          return;
-        }
-        console.log(stdout);
-        connection.write(stdout + "\n");
-        // connection.write(stdout); // nada
-        console.log(connection.listenerCount("data"));
-        // console.log(chalk.white(stdout));
-        // connection.write(chalk.white(stdout) + '\n');
-        // connection.emit('data', stdout);
-        // // connection.emit('close');
-      });
-
-      //cerrar la conexion con el cliente
-      connection.destroy();
+    connection.on("end", () => {
+      console.log("Client disconnected.");
     });
 
-    connection.on("close", () => {
-      console.log("A client has disconnected.");
+    connection.on("data", (data) => {
+      const mensaje = JSON.parse(data.toString());
+      
+      switch (mensaje.type) {
+        case "add":
+          console.log("add");
+          if(new FuncosCollection().almacenarFunkoUsuario(mensaje.funkoPop, mensaje.usuario)){
+            connection.write(JSON.stringify({type: 'add', success: true}));
+          }else{
+            connection.write(JSON.stringify({type: 'add', success: false}));
+          }
+          //
+          break;
+        case "update":
+          console.log("update");
+          if(new FuncosCollection().modificarFunkoUsuario(mensaje.id, mensaje.funkoPop, mensaje.usuario)){
+            connection.write(JSON.stringify({type: 'update', success: true}));
+          }else {
+            connection.write(JSON.stringify({type: 'update', success: false}));
+          }
+          break;
+        case "remove":
+          console.log("remove");
+          if(new FuncosCollection().eliminarFunkoUsuario(mensaje.id, mensaje.usuario)){
+            connection.write(JSON.stringify({type: 'remove', success: true}));
+          }else {
+            connection.write(JSON.stringify({type: 'remove', success: false}));
+          }
+          break;
+        case "read":
+          console.log("read");
+          if(new FuncosCollection().mostrarFunkoUsuario(mensaje.funkoPop, mensaje.usuario)){
+            connection.write(JSON.stringify({type: 'read', success: true}));
+          }else {
+            connection.write(JSON.stringify({type: 'read', success: false}));
+          }
+          break;
+        case "list":
+          console.log("list");
+          if(new FuncosCollection().listarFunkosUsuario(mensaje.funkoPop)){
+            connection.write(JSON.stringify({type: 'list', success: true}));
+          }else{
+            connection.write(JSON.stringify({type: 'list', success: false}));
+          }
+          break;
+        default:
+          console.log("default");
+          connection.write(JSON.stringify({type: 'default', success: false}));
+          break;
+      }
+      console.log(data.toString());
     });
+
   })
   .listen(60300, () => {
     console.log("Waiting for clients to connect.");

@@ -18,7 +18,7 @@ export class FuncosCollection {
    * metodo para almacenar un funko en el fichero
    * @param funko funko a almacenar
    */
-  public almacenarFunkoUsuario(funko: Funko, usuario: string) {
+  public almacenarFunkoUsuario(funko: Funko, usuario: string): boolean {
     const fileName = funko.id + ".json";
     const dirName = usuario.toLowerCase().replace(/\s+/g, "-");
     const filePath = `./funkos/${dirName}/${fileName}`;
@@ -26,12 +26,13 @@ export class FuncosCollection {
     // Comprobamos si el fichero ya existe en el directorio
     if (fs.existsSync(filePath)) {
       console.log(chalk.bold.red(`Ya existe un Funko con el nombre ${funko.nombre} en el directorio ${dirName}`));
-      return;
+      return false;
     }
   
     fs.mkdirSync(`./funkos/${dirName}`, { recursive: true });
     fs.writeFileSync(filePath, JSON.stringify(funko));
     console.log(chalk.green.bold(`El Funko "${funko.nombre}" fue almacenado correctamente.`));
+    return true
   }
 
     /**
@@ -82,7 +83,7 @@ export class FuncosCollection {
    * @param id id del funko a modificar
    * @param nuevoFunko nuevo funko a almacenar
    */
-  public modificarFunkoUsuario(id: number, nuevoFunko: Funko, usuario: string) {
+  public modificarFunkoUsuario(id: number, nuevoFunko: Funko, usuario: string): boolean {
     const dirName = usuario.toLowerCase().replace(/\s+/g, "-");
     const filePath = `./funkos/${dirName}/${id.toString()}.json`;
 
@@ -92,8 +93,10 @@ export class FuncosCollection {
       console.log(
         chalk.bold.green(`El Funko "${id.toString()}" ha sido modificado exitosamente.`)
       );
+      return true
     } else {
       console.log(chalk.bold.red(`No se encontró el archivo del Funko "${id.toString()}".`));
+      return false
     }
   }
 
