@@ -15,26 +15,26 @@ describe("FuncosCollection", () => {
     new FuncosCollection().almacenarFunkoUsuario(funko3, "John Doe");
     new FuncosCollection().almacenarFunkoUsuario(funko4, "John Doe");
     new FuncosCollection().almacenarFunkoUsuario(funko1, "John Doe");
-    expect(new FuncosCollection().listarFunkosUsuario("John Doe")).to.be.true;
+    expect(new FuncosCollection().listarFunkosUsuario("John Doe")[0]).to.be.true;
   });
 
   it("No debe listar los funkos de un usuario", () => {
-    expect(new FuncosCollection().listarFunkosUsuario("John Does")).to.be.false;
+    expect(new FuncosCollection().listarFunkosUsuario("John Does")[0]).to.be.false;
   });
 
   it("debe mostrar un funko de un usuario", () => {
-    expect(new FuncosCollection().mostrarFunkoUsuario(1, "John Doe")).to.be
+    expect(new FuncosCollection().mostrarFunkoUsuario(1, "John Doe")[0]).to.be
       .true;
-    expect(new FuncosCollection().mostrarFunkoUsuario(2, "John Doe")).to.be
+    expect(new FuncosCollection().mostrarFunkoUsuario(2, "John Doe")[0]).to.be
       .true;
-    expect(new FuncosCollection().mostrarFunkoUsuario(3, "John Doe")).to.be
+    expect(new FuncosCollection().mostrarFunkoUsuario(3, "John Doe")[0]).to.be
       .true;
-    expect(new FuncosCollection().mostrarFunkoUsuario(4, "John Doe")).to.be
+    expect(new FuncosCollection().mostrarFunkoUsuario(4, "John Doe")[0]).to.be
       .true;
   });
 
   it("No debe mostrar un funko de un usuario", () => {
-    expect(new FuncosCollection().mostrarFunkoUsuario(1, "John Does")).to.be
+    expect(new FuncosCollection().mostrarFunkoUsuario(1, "John Does")[0]).to.be
       .false;
   });
 

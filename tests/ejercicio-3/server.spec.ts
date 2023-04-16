@@ -30,7 +30,7 @@ describe("FuncosCollection", () => {
       const funkoCollection = new FuncosCollection();
       
       const usuario = "testUser";
-      funkoCollection.almacenarFunkoUsuario(funko1, usuario);
+      funkoCollection.almacenarFunkoUsuario(funko2, usuario);
       expect(funkoCollection.modificarFunkoUsuario(funko2.id, funko2, usuario)).to.be.true;
       expect(funkoCollection.mostrarFunkoUsuario(funko2.id, usuario)[0]).to.be.true
     });
