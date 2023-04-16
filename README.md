@@ -50,3 +50,7 @@ Y el manejador de eventos para el el evento de cambio y lo ejecuta, mostrado por
     El objeto constants contiene constantes que representan modos de acceso para archivos y directorios. Estas constantes se utilizan con las funciones proporcionadas por el módulo "fs", como access, chmod, stat, entre otras.
 
 # Ejercicio 2
+
+# Ejercicio 3
+
+# Conclusiones

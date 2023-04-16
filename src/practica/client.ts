@@ -1,35 +1,34 @@
 import {connect} from 'net';
 import readline from 'readline';
-import {MessageEventEmitterClient} from './eventEmiter.js';
 
-const client = new MessageEventEmitterClient(connect({port: 60300}));
+import net from 'net';
 
-client.on('message', (message) => {
-  if (message.type === 'output') {
-    console.log(`Command output:\n${message.message}`);
-    client.emit('resultSent'); // Emit resultSent event to server
-  } else if (message.type === 'error') {
-    console.log(`Command error:\n${message.message}`);
-    client.emit('resultSent'); // Emit resultSent event to server
+const client = net.connect({ port: 60300 });
+
+let comando = ''
+
+for (let i = 2; i < process.argv.length; i++) {
+  comando += process.argv[i] + ' '
+}
+
+console.log(comando)
+
+client.write(JSON.stringify({ type: 'command', command: comando }));
+
+client.on('data', (message) => {
+  // const data = JSON.parse(message.toString());
+  // console.log(data.message);
+  // client.end();
+  const data = JSON.parse(message.toString());
+  if (data.type === 'error') {
+    console.log(data.message);
+  } else if (data.type === 'output') {
+    console.log(data.message);
   } else {
-    console.log(`Message type ${message.type} is not valid`);
-    client.emit('resultSent'); // Emit resultSent event to server
+    console.log('Unknown message type');
   }
 });
 
-client.on('resultSent', () => {
-  console.log('Result sent from server.');
-  process.exit(); // Exit process once result has been sent
-});
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-rl.question('Enter a command to execute on the server: ', (command) => {
-  client.emit('command', command); // Send command to server
-});
 
 
 
