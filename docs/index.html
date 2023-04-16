@@ -56,25 +56,65 @@
 <a href="#ejercicio-1" id="ejercicio-1" style="color: inherit; text-decoration: none;">
   <h1>Ejercicio 1</h1>
 </a>
-<p>Traza de ejecución:</p>
-<ol>
-<li>El usuario ejecuta el programa con el comando &quot;node program.ts helloworld.txt&quot;</li>
-<li>El programa comprueba si se han pasado exactamente 3 argumentos en la línea de comandos. En este caso, sí se han pasado exactamente 3 argumentos, por lo que el programa continúa.</li>
-<li>El programa utiliza la función access para comprobar si el archivo helloworld.txt existe. Si existe, se muestra un mensaje en la consola indicando que se está observando el archivo.</li>
-<li>El programa utiliza la función watch para observar el archivo helloworld.txt en busca de cambios.</li>
-<li>El programa muestra un mensaje en la consola indicando que el archivo helloworld.txt ya no se está observando.</li>
-<li>El usuario modifica el archivo helloworld.txt.</li>
-<li>La función watch detecta el cambio en el archivo helloworld.txt y emite un evento de cambio.</li>
-<li>Se agrega un manejador de eventos a la cola de manejadores para el evento de cambio del archivo helloworld.txt.</li>
-<li>El manejador de eventos para el evento de cambio del archivo helloworld.txt se ejecuta y muestra un mensaje en la consola indicando que el archivo helloworld.txt ha sido modificado.</li>
-<li>El usuario modifica el archivo helloworld.txt de nuevo.</li>
-<li>La función watch detecta el cambio en el archivo helloworld.txt y emite otro evento de cambio.</li>
-<li>Se agrega otro manejador de eventos a la cola de manejadores para el evento de cambio del archivo helloworld.txt.</li>
-<li>El manejador de eventos para el evento de cambio del archivo helloworld.txt se ejecuta de nuevo y muestra otro mensaje en la consola indicando que el archivo helloworld.txt ha sido modificado.</li>
-</ol>
+<ul>
+<li><p>Traza de ejecución con 2 cambios:</p>
+<p>Cuando el usuario ejecuta el comando &quot;node program.ts helloworld.txt&quot;, se cmprueba si se han pasado correctamente los 3 argumentos necesarios por la línea de comandos.
+En caso afirmativo, el programa continúa su ejecución.
+A continuación el programa comprueba la existencia del archivo &quot;helloworld&quot;, en caso afirmativo prosigue su ejecución. 
+De ahora en adelante el programa vigilará el archivo mediante la funcion watch, y procede a imprimir por pantalla que el archivo ya no está siendo observado.
+Tras la primera modificación del archivo, la funcion watch detecta unc ambio y emite un evento de tipo cambio.
+Ahora se agrega a la cola de manejadores un manejador de eventos, para el evento de cambio del archivo helloworld.
+El manejador de eventos para el evento de cambio y lo ejecuta, mostrando por consola un mensaje informando que el archivo ha sido modificado.
+Tras la segunda modificación del archivo, la funcion watch detecta un cambio y emite un evento de tipo cambio.
+Se agrega otro manejador de eventos a la cola de manejadores para el evento de cambio.
+Y el manejador de eventos para el el evento de cambio y lo ejecuta, mostrado por pantalla un mensaje informando que el archivo ha sido modificado.</p>
+</li>
+<li><p>¿Qué hace la función access? 
+La función access se utiliza para verificar si un archivo o directorio existe y si el usuario actual tiene permiso de acceso para realizar la operación especificada en el archivo o directorio. La función access toma tres argumentos: path (cadena), mode (entero) y callback (función de devolución de llamada)</p>
+</li>
+<li><p>¿Para qué sirve el objeto constants?
+  El objeto constants contiene constantes que representan modos de acceso para archivos y directorios. Estas constantes se utilizan con las funciones proporcionadas por el módulo <code>fs</code>, como access, chmod, stat, entre otras.</p>
+</li>
+</ul>
 
 <a href="#ejercicio-2" id="ejercicio-2" style="color: inherit; text-decoration: none;">
   <h1>Ejercicio 2</h1>
+</a>
+<p> En este caso, el objetivo a cumplir es el crear dos programas que en esencia son el mismo, pero con la diferencia de que uno de ellos utiliza el metodo pipe y el otro no. El funcionamiento principal de estos programas se basa en , con la ayuda de <code>yrgs</code>, crear comandos para poder obtener la cantidad de lineas, palabras y/o caracteres de un fichero, el cual se pasa como argumento del comando.</p>
+<ul>
+<li><p>En el caso de no usar pipe, las funciones que se encargan de contar las lineas, palabras y caracteres se basan en la busqueda de la existencia del fichero pasado por terminal con los metodos <code>path.resolve(`nombre del archivo)</code> y <code> fs.existsSync(`nombre del archivo)</code>. En caso de que el archivo exista, se procede a leerlo con el metodo <code>fs.readFileSync(`nombre del archivo)</code>. Una vez leido el archivo, se procede a contar las lineas, palabras y caracteres con los metodos <code>split(&#39;\n&#39;)</code>, <code>split(/\s+/)</code> y <code>split(&#39;&#39;)</code>. Por ultimo, se procede a imprimir por pantalla el resultado de las operaciones.</p>
+</li>
+<li><p>En el caso contrario, en el que se utiliza pipe, se definen las funciones de contar lineas, palabras y caracteres con la condición de devolver un EventEmitter. En el caso de contar las líneas  crea dos procesos utilizando los comandos &#39;cat&#39; y &#39;wc&#39;, respectivamente, y luego los conecta en un tubería (pipe). La tubería permite que la salida del primer proceso se convierta en la entrada del segundo proceso.</p>
+</li>
+</ul>
+<p> Después de eso, el código configura un detector de eventos para la salida del segundo proceso. Cuando el segundo proceso envía datos, el código los convierte a un número entero y los emite como un evento personalizado llamado &#39;lineas&#39;, utilizando la clase EventEmitter de Node.js.</p>
+<p> En resumen, este bloque de código cuenta el número de líneas en un archivo utilizando los comandos &#39;cat&#39; y &#39;wc&#39;, y emite un evento con el número de líneas como resultado.</p>
+<p> La unica diferencia entre las tres funciones se detecta en el argumento que acompaña a <code>wc</code>, puesto que en el caso de contar las lineas se utiliza <code>-l</code>, en el caso de contar las palabras se utiliza <code>-w</code> y en el caso de contar los caracteres se utiliza <code>-c</code>.</p>
+
+<a href="#ejercicio-3" id="ejercicio-3" style="color: inherit; text-decoration: none;">
+  <h1>Ejercicio 3</h1>
+</a>
+<p>El tercer ejercicio se basa en la practica 9, en la cual se pide crear un programa que permita crear, listar, mostar un funko en concreto, borrar y actualizar funkos de un usuario. Para ello, se utiliza el modulo <code>yargs</code> para crear los comandos necesarios para poder realizar las operaciones anteriores.</p>
+<p>Pero en esta práctica se añade el uso de ervidor y cliente, donde se ha especificado que el servidor se encargará de la gestión de los funkos, mientras que el cliente se encargará de la interacción con el usuario.</p>
+<ul>
+<li>Servidor.
+El servidor escucha en el puerto 60300 para recibir mensajes JSON que especifican acciones a realizar en una colección de figuras Funko Pop. La comunicación se realiza a través de la red utilizando el protocolo TCP.</li>
+</ul>
+<p> La colección de Funko Pops está definida en el archivo &quot;funkoCollection.js&quot;, mientras que cada figura en sí misma está definida en el archivo &quot;funco.js&quot;. La respuesta que envía el servidor al cliente dependerá del tipo de acción que se esté solicitando (add, update, remove, read, list), y puede incluir la colección completa de figuras Funko Pop.</p>
+<p> En generales, el servidor acepta conexiones de clientes y espera recibir mensajes JSON que contienen información sobre qué acción realizar en la colección de Funko Pops. Luego, el servidor procesa la solicitud y envía una respuesta al cliente indicando si la acción se completó con éxito o no, y en algunos casos, también devuelve información específica sobre la figura Funko Pop que se modificó o consultó.</p>
+<ul>
+<li>Cliente.
+ En este caso se utiliza diferentes módulos para construir una aplicación de línea de comandos que permite interactuar con una colección de Funko Pops de un usuario a través de comandos. Para lograr esto, se utilizan diferentes paquetes que se importan al inicio del archivo, como &quot;net&quot;, &quot;yargs&quot; y &quot;chalk&quot;.</li>
+</ul>
+<p> El código comienza definiendo un tipo de solicitud llamado &quot;RequestType&quot;, que tiene una propiedad &quot;type&quot; y una propiedad &quot;funkoPop&quot;. La propiedad &quot;type&quot; tiene un valor de cadena literal que puede ser &quot;add&quot;, &quot;update&quot;, &quot;remove&quot;, &quot;read&quot; o &quot;list&quot;. La propiedad &quot;funkoPop&quot; es un array de objetos Funko.</p>
+<p> Luego se crea un objeto &quot;client&quot; utilizando el módulo &quot;net&quot; para conectarse a un servidor en el puerto 60300.</p>
+<p> Después se utiliza el paquete &quot;yargs&quot; para definir diferentes comandos que permiten al usuario interactuar con su colección de Funko Pops. En este código se definen cuatro comandos: &quot;mostrar&quot;, &quot;listar&quot;, &quot;modificar&quot; y &quot;eliminar&quot;.</p>
+<p> A continuacion, se implementa el código del cliente para un servidor que maneja una colección de Funko Pops. Este cliente se conecta al servidor mediante una conexión de socket, y espera recibir mensajes del servidor que contienen información sobre la colección de Funkos.</p>
+<p> El código tiene un switch statement que analiza el mensaje recibido del servidor y ejecuta una acción en consecuencia. Si el tipo de mensaje es &quot;add&quot;, el código comprueba si el Funko Pop fue añadido correctamente o no, y muestra un mensaje de éxito o error en consecuencia. Si el tipo de mensaje es &quot;update&quot;, el código comprueba si el Funko Pop fue modificado correctamente o no, y muestra un mensaje de éxito o error en consecuencia. Si el tipo de mensaje es &quot;remove&quot;, el código comprueba si el Funko Pop fue eliminado correctamente o no, y muestra un mensaje de éxito o error en consecuencia. Si el tipo de mensaje es &quot;list&quot;, el código muestra una lista de todos los Funko Pops del usuario especificado, junto con su valor de mercado. Si el tipo de mensaje es &quot;read&quot;, el código muestra la información completa de un Funko Pop en particular.</p>
+<p> En resumen, el código es una implementación de un cliente para un servidor que maneja una colección de Funko Pops, y proporciona una interfaz para que el usuario pueda interactuar con la colección.</p>
+
+<a href="#conclusiones" id="conclusiones" style="color: inherit; text-decoration: none;">
+  <h1>Conclusiones</h1>
 </a>
 </div></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -98,8 +138,19 @@
 <ul>
 <li class="current selected"><a href="modules.html">doc-<wbr/>test</a>
 <ul>
-<li class="tsd-kind-module"><a href="modules/client.html">client</a></li>
-<li class="tsd-kind-module"><a href="modules/server.html">server</a></li></ul></li></ul></div></details></nav></div></div>
+<li class="tsd-kind-module"><a href="modules/ejercicio_2_Nopipe.html">ejercicio-<wbr/>2/<wbr/>Nopipe</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_2_Sipipe.html">ejercicio-<wbr/>2/<wbr/>Sipipe</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_2_ejercicio_nopipe.html">ejercicio-<wbr/>2/ejercicio-<wbr/>nopipe</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_2_ejercicio_pipe.html">ejercicio-<wbr/>2/ejercicio-<wbr/>pipe</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_3_Funko_Pops_basicFunctions.html">ejercicio-<wbr/>3/<wbr/>Funko <wbr/>Pops/basic<wbr/>Functions</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_3_Funko_Pops_comand.html">ejercicio-<wbr/>3/<wbr/>Funko <wbr/>Pops/comand</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_3_Funko_Pops_funco.html">ejercicio-<wbr/>3/<wbr/>Funko <wbr/>Pops/funco</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_3_Funko_Pops_funkoCollection.html">ejercicio-<wbr/>3/<wbr/>Funko <wbr/>Pops/funko<wbr/>Collection</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_3_Funko_Pops_genero.html">ejercicio-<wbr/>3/<wbr/>Funko <wbr/>Pops/genero</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_3_Funko_Pops_main.html">ejercicio-<wbr/>3/<wbr/>Funko <wbr/>Pops/main</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_3_Funko_Pops_tipo.html">ejercicio-<wbr/>3/<wbr/>Funko <wbr/>Pops/tipo</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_3_cliente.html">ejercicio-<wbr/>3/cliente</a></li>
+<li class="tsd-kind-module"><a href="modules/ejercicio_3_server.html">ejercicio-<wbr/>3/server</a></li></ul></li></ul></div></details></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="assets/main.js"></script></body></html>

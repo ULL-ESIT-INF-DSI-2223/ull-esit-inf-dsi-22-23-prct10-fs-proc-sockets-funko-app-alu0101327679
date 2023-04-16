@@ -1,6 +1,8 @@
 {
   "entryPoints": [
-    "./src/**ts"
+    "./src/ejercicio-2/**.ts",
+    "./src/ejercicio-3/*.ts",
+    "./src/ejercicio-3/Funko Pops/*.ts",
   ],
   "out": "./docs"
 }
