@@ -1,14 +1,14 @@
 import net from "net";
 
 import { Funko } from "./Funko Pops/funco.js";
-import { FuncosCollection } from "./Funko Pops/funkoCollection.js";
+// import { FuncosCollection } from "./Funko Pops/funkoCollection.js";
 import { Tipo } from "./Funko Pops/tipo.js";
 import { Genero } from "./Funko Pops/genero.js";
 
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import chalk, { ChalkInstance } from "chalk";
-import { argv } from "process";
+// import { argv } from "process";
 
 export type RequestType = {
   type: "add" | "update" | "remove" | "read" | "list";

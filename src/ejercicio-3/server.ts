@@ -1,8 +1,6 @@
 import net from "net";
-import { watchFile } from "fs";
 import { Funko } from "./Funko Pops/funco.js";
 import { FuncosCollection } from "./Funko Pops/funkoCollection.js";
-import { connect } from "http2";
 
 export type ResponseType = {
   type: "add" | "update" | "remove" | "read" | "list";
