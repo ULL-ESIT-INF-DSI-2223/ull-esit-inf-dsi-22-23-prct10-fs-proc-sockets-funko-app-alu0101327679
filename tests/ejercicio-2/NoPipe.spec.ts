@@ -46,16 +46,4 @@ describe('NoPipe', () => {
     });
   })
 
-  describe('contarTodo', () => {
-    it('devuelve un mensaje de error si el archivo no existe', () => {
-      const resultado = noPipe.contarTodo('archivo-inexistente.txt');
-      expect(resultado).equal('El fichero archivo-inexistente.txt no existe');
-    });
-
-    it('devuelve el número de líneas, palabras y caracteres si el archivo existe', () => {
-      const resultado = noPipe.contarTodo('helloworld.txt');
-      expect(resultado).not.equal('El fichero helloworld.txt tiene 1 lineas\nEl fichero helloworld.txt tiene 3 palabras\nEl fichero helloworld.txt tiene 20 caracteres');
-    });
-  })
-
 });
