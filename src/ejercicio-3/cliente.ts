@@ -1,21 +1,21 @@
-import net from 'net';
+import net from "net";
 
-import { Funko } from './Funko Pops/funco.js';
+import { Funko } from "./Funko Pops/funco.js";
 import { FuncosCollection } from "./Funko Pops/funkoCollection.js";
 import { Tipo } from "./Funko Pops/tipo.js";
 import { Genero } from "./Funko Pops/genero.js";
 
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import chalk from 'chalk';
-import { argv } from 'process';
+import chalk, { ChalkInstance } from "chalk";
+import { argv } from "process";
 
 export type RequestType = {
-  type: 'add' | 'update' | 'remove' | 'read' | 'list';
-  funkoPop?: Funko[]
-}
+  type: "add" | "update" | "remove" | "read" | "list";
+  funkoPop?: Funko[];
+};
 
-const client = net.connect({port: 60300});
+const client = net.connect({ port: 60300 });
 
 /**
  * Se utiliza el paquete yargs para definir comandos y opciones y que permite
@@ -23,7 +23,7 @@ const client = net.connect({port: 60300});
  */
 yargs(hideBin(process.argv))
   /**
-   * Comando para almacenar un Funko en la coleccion de un usuario
+   * Comando para mostrar un Funko en la coleccion de un usuario
    */
   .command(
     "mostrar",
@@ -42,7 +42,13 @@ yargs(hideBin(process.argv))
     },
     (argv) => {
       // let collectionPrueba = new FuncosCollection([], argv.);
-      client.write(JSON.stringify({type: 'read', funkoPop: argv.id, usuario: argv.usuario}));
+      client.write(
+        JSON.stringify({
+          type: "read",
+          funkoPop: argv.id,
+          usuario: argv.usuario,
+        })
+      );
       // new FuncosCollection().mostrarFunkoUsuario(argv.id, argv.usuario);
     }
   )
@@ -61,7 +67,7 @@ yargs(hideBin(process.argv))
     },
     (argv) => {
       // let collectionPrueba = new FuncosCollection([], argv.);
-      client.write(JSON.stringify({type: 'list', funkoPop: argv.usuario}));
+      client.write(JSON.stringify({ type: "list", nombre: argv.usuario }));
       // new FuncosCollection().listarFunkosUsuario(argv.usuario);
     }
   )
@@ -148,18 +154,25 @@ yargs(hideBin(process.argv))
       //   ),
       //   argv.usuario
       // );
-      client.write(JSON.stringify({type: 'update',id: argv.id , funkoPop: new Funko(
-          argv.id,
-          argv.nombre,
-          argv.descripcion,
-          argv.tipo,
-          argv.genero,
-          argv.franquicia,
-          argv.numero,
-          argv.exclusivo,
-          argv.caracteristicasEspeciales,
-          argv.valorDeMercado
-        ), usuario: argv.usuario}));
+      client.write(
+        JSON.stringify({
+          type: "update",
+          id: argv.id,
+          funkoPop: new Funko(
+            argv.id,
+            argv.nombre,
+            argv.descripcion,
+            argv.tipo,
+            argv.genero,
+            argv.franquicia,
+            argv.numero,
+            argv.exclusivo,
+            argv.caracteristicasEspeciales,
+            argv.valorDeMercado
+          ),
+          usuario: argv.usuario,
+        })
+      );
     }
   )
   /**
@@ -181,8 +194,13 @@ yargs(hideBin(process.argv))
       },
     },
     (argv) => {
-      // new FuncosCollection().eliminarFunkoUsuario(argv.id, argv.usuario);
-      client.write(JSON.stringify({type: 'delete', funkoPop: argv.id, usuario: argv.usuario}));
+      client.write(
+        JSON.stringify({
+          type: "remove",
+          funkoPop: argv.id,
+          usuario: argv.usuario,
+        })
+      );
     }
   )
   /**
@@ -251,87 +269,191 @@ yargs(hideBin(process.argv))
       },
     },
     (argv) => {
-    //   const nuevoFunko = new Funko(
-    //     argv.id,
-    //     argv.nombre,
-    //     argv.descripcion,
-    //     argv.tipo,
-    //     argv.genero,
-    //     argv.franquicia,
-    //     argv.numero,
-    //     argv.exclusivo,
-    //     argv.caracteristicasEspeciales,
-    //     argv.valorDeMercado
-    //   );
-    //   new FuncosCollection().almacenarFunkoUsuario(nuevoFunko, argv.usuario);
-    // }
-    client.write(JSON.stringify({type: 'add', funkoPop: new Funko(
-        argv.id,
-        argv.nombre,
-        argv.descripcion,
-        argv.tipo,
-        argv.genero,
-        argv.franquicia,
-        argv.numero,
-        argv.exclusivo,
-        argv.caracteristicasEspeciales,
-        argv.valorDeMercado
-      ), usuario: argv.usuario}));
-  }
+      //   const nuevoFunko = new Funko(
+      //     argv.id,
+      //     argv.nombre,
+      //     argv.descripcion,
+      //     argv.tipo,
+      //     argv.genero,
+      //     argv.franquicia,
+      //     argv.numero,
+      //     argv.exclusivo,
+      //     argv.caracteristicasEspeciales,
+      //     argv.valorDeMercado
+      //   );
+      //   new FuncosCollection().almacenarFunkoUsuario(nuevoFunko, argv.usuario);
+      // }
+      client.write(
+        JSON.stringify({
+          type: "add",
+          funkoPop: new Funko(
+            argv.id,
+            argv.nombre,
+            argv.descripcion,
+            argv.tipo,
+            argv.genero,
+            argv.franquicia,
+            argv.numero,
+            argv.exclusivo,
+            argv.caracteristicasEspeciales,
+            argv.valorDeMercado
+          ),
+          usuario: argv.usuario,
+        })
+      );
+    }
   )
   .help().argv;
 
-
-
-client.on('data', (dataJSON) => {
+client.on("data", (dataJSON) => {
   const message = JSON.parse(dataJSON.toString());
 
   switch (message.type) {
-    case 'add':
+    case "add":
       //node dist/ejercicio-3/cliente.js add --usuario "javier" --id 1 --nombre "paco" --descripcion "no hay" --tipo "Pop!" --genero "Animación" --franquicia "canarias" --numero 4 --exclusivo false --caracteristicasEspeciales "no hay" --valorDeMercado 25
-      if(message.success){
+      if (message.success) {
         console.log(chalk.bold.green(`Funko añadido correctamente`));
-      }else {
-        console.log(chalk.bold.red(`Ya existe un Funko con el nombre ${message.nonbre} en el directorio ${__dirname}`));
+      } else {
+        console.log(
+          chalk.bold.red(
+            `Ya existe un Funko con el nombre ${message.nonbre} en el directorio ${__dirname}`
+          )
+        );
       }
       break;
-    case 'update':
-      if(message.success){
-        console.log(chalk.bold.green(`Funko modificado correctamente`));
-      }else {
-        console.log(chalk.bold.red(`No existe un Funko con el nombre ${message.nonbre} en el directorio ${__dirname}`));
+    case "update":
+      if (message.success) {
+        console.log(
+          chalk.bold.green(
+            `Funko "${message.id}" modificado correctamente`
+          )
+        );
+      } else {
+        console.log(
+          chalk.bold.red(
+            `No existe un Funko con el nombre ${message.funkoPop} en el directorio ${__dirname}`
+          )
+        );
       }
       break;
-    case 'remove':
-      if(message.success){
-        console.log(chalk.bold.green(`Funko eliminado correctamente`));
-      }else {
-        console.log(chalk.bold.red(`No existe un Funko con el nombre ${message.nonbre} en el directorio ${__dirname}`));
+    case "remove":
+      if (message.success) {
+        console.log(
+          chalk.bold.green(
+            `El Funko "${message.id}" fue eliminado correctamente.`
+          )
+        );
+      } else {
+        console.log(
+          chalk.bold.red(
+            `No existe un Funko con el nombre ${message.id} en el directorio ${__dirname}`
+          )
+        );
       }
       break;
-    case 'list':
-      if(message.success){
+    case "list":
+      if (message.success) {
         console.log(chalk.bold.green(`Funkos del usuario ${message.usuario}`));
-        console.log(message.funkos);
-      }else {
-        console.log(chalk.bold.red(`No existe un usuario con el nombre ${message.usuario}`));
+        const valorBajo = 100;
+        const valorMedio = 150;
+        const valorAlto = 200;
+
+        if(message.funko.length === 0){
+          console.log(chalk.bold.red("No hay Funkos en la colección"));
+        }
+      
+        console.log(chalk.bold("Funkos existentes:"));
+        // const funkos = JSON.parse(message.funko);
+        message.funko.forEach((elemento: string ) => {
+          let valorColoreado: string;
+          let FunkoVariable = JSON.parse(elemento)
+          
+          if (FunkoVariable.valorDeMercado >= valorAlto) {
+            valorColoreado = chalk.green.bold(FunkoVariable.valorDeMercado.toFixed(2));
+          } else if (FunkoVariable.valorDeMercado >= valorMedio) {
+            valorColoreado = chalk.yellow.bold(FunkoVariable.valorDeMercado.toFixed(2));
+          }
+          else if (FunkoVariable.valorDeMercado >= valorBajo) {
+            valorColoreado = chalk.blue.bold(FunkoVariable.valorDeMercado.toFixed(2));
+          } else {
+            valorColoreado = chalk.red.bold(FunkoVariable.valorDeMercado.toFixed(2));
+          }
+          console.log(`Nombre: ${FunkoVariable.nombre} - Valor de mercado: ${valorColoreado}`);
+
+          
+        })
+        
+
+        // if(funkos.length === 0){
+        //   console.log(chalk.bold.red("No hay Funkos en la colección"));
+        // }
+        // let valorColoreado = "";
+        // funkos.forEach((funko: { valorDeMercado: number; nombre: string; }) => {
+        //   if (funko.valorDeMercado >= valorAlto) {
+        //     valorColoreado = chalk.green.bold(message.funko.valorDeMercado.toFixed(2));
+        //   } else if (funko.valorDeMercado >= valorMedio) {
+        //     valorColoreado = chalk.yellow.bold(message.funko.valorDeMercado.toFixed(2));
+        //   }
+        //   else if (funko.valorDeMercado >= valorBajo) {
+        //     valorColoreado = chalk.blue.bold(message.funko.valorDeMercado.toFixed(2));
+        //   } else {
+        //     valorColoreado = chalk.red.bold(message.funko.valorDeMercado.toFixed(2));
+        //   }
+        //   console.log(`Nombre: ${funko.nombre} - Valor de mercado: ${valorColoreado}`);
+
+        // });
+    
+        // console.log(message.funkos);
+      } else {
+        console.log(
+          chalk.bold.red(
+            `No existe un usuario con el nombre ${message.usuario}`
+          )
+        );
       }
       break;
-    case 'read':
-      if(message.success){
+    case "read":
+      if (message.success) {
         console.log(chalk.bold.green(`Funko del usuario ${message.usuario}`));
-        console.log(message.funko);
-      }else {
-        console.log(chalk.bold.red(`No existe un usuario con el nombre ${message.usuario}`));
+        const funko = JSON.parse(message.funko);
+        console.log(
+          chalk.magenta.bold(`Información del Funko con ID ${message.id}:`)
+        );
+        console.log(`Nombre: ${funko.nombre}`);
+        console.log(`Descripción: ${funko.descripcion}`);
+        console.log(`Tipo: ${funko.tipo}`);
+        console.log(`Género: ${funko.genero}`);
+        console.log(`Franquicia: ${funko.franquicia}`);
+        console.log(`Número: ${funko.numero}`);
+        console.log(`Exclusivo: ${funko.exclusivo ? "Sí" : "No"}`);
+        console.log(
+          `Características especiales: ${funko.caracteristicasEspeciales}`
+        );
+        const valor = funko.valorDeMercado;
+        let color: ChalkInstance;
+        if (valor > 200) {
+          color = chalk.green;
+        } else if (valor >= 150) {
+          color = chalk.yellow;
+        } else if (valor >= 100) {
+          color = chalk.blue;
+        } else {
+          color = chalk.red;
+        }
+        console.log(`Valor de mercado: ${color.bold(`$${valor.toFixed(2)}`)}`);
+      } else {
+        console.log(
+          chalk.bold.red(
+            `No existe un usuario con el nombre ${message.usuario}`
+          )
+        );
       }
       break;
-    case 'defalut':
+    case "defalut":
       console.log(chalk.bold.red(`Error: Comando no valido`));
       break;
     default:
       console.log(chalk.bold.red(`Error: Comando no valido`));
       break;
   }
-
-
 });

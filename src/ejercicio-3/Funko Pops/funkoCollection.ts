@@ -44,11 +44,11 @@ export class FuncosCollection {
     const dirName = usuario.toLowerCase().replace(/\s+/g, "-");
     const filePath = `./funkos/${dirName}/${fileName}`;
 
-    try {
+    if (fs.existsSync(filePath)) { 
       fs.unlinkSync(filePath);
       console.log(chalk.green.bold(`El Funko "${id}" fue eliminado correctamente.`));
       return true
-    } catch (error) {
+    } else {
       console.error(chalk.red.bold(`Error al intentar eliminar el Funko "${id}"`));
       return false
     }
@@ -103,7 +103,7 @@ export class FuncosCollection {
   /**
    * metodo para listar los funkos del usuario
    */
-  public listarFunkosUsuario(usuario: string) {
+  public listarFunkosUsuario(usuario: string): [boolean, string[]] {
     const valorMinimo = 0;
     const valorBajo = 50;
     const valorMedio = 100;
@@ -115,9 +115,9 @@ export class FuncosCollection {
   
     if (funkos.length === 0) {
       console.log(chalk.bold.red("No se encontraron funkos para el usuario: " + usuario));
-      return false
+      return [false, ["No se encontraron funkos para el usuario: " + usuario]]
     }
-  
+    let mensaje: string[] = []
     for (const funko of funkos) {
       const valor = funko.valorDeMercado;
   
@@ -138,50 +138,31 @@ export class FuncosCollection {
           " - Valor de mercado: " +
           valorColoreado
       );
+        mensaje.push(JSON.stringify({id_: funko.id, nombre: funko.nombre, descripcion: funko.descripcion, tipo: funko.tipo, genero: funko.genero, franquicia: funko.franquicia, numero: funko.numero, exclusivo: funko.exclusivo, valorDeMercado: funko.valorDeMercado, caracteristicasEspeciales: funko.caracteristicasEspeciales, usuario: usuario}))
     }
-    return true
+    return [true, mensaje]
   }
 
   /**
    * metodo para mostrar un funko del usuario
    * @param id id del funko a mostrar
    */
-  public mostrarFunkoUsuario(id: number, usuario: string): boolean{
+  public mostrarFunkoUsuario(id: number, usuario: string): [boolean, string]{
     const fileName = `${id}.json`;
     const dirName = usuario.toLowerCase().replace(/\s+/g, "-");
     const filePath = `./funkos/${dirName}/${fileName}`;
 
-    try {
+    if (fs.existsSync(filePath)) {
       const data = fs.readFileSync(filePath, "utf8");
       const foundFunko = JSON.parse(data);
-      console.log(chalk.magenta.bold(`Información del Funko con ID ${id}:`));
-      console.log(`Nombre: ${foundFunko.nombre}`);
-      console.log(`Descripción: ${foundFunko.descripcion}`);
-      console.log(`Tipo: ${foundFunko.tipo}`);
-      console.log(`Género: ${foundFunko.genero}`);
-      console.log(`Franquicia: ${foundFunko.franquicia}`);
-      console.log(`Número: ${foundFunko.numero}`);
-      console.log(`Exclusivo: ${foundFunko.exclusivo ? "Sí" : "No"}`);
-      console.log(
-        `Características especiales: ${foundFunko.caracteristicasEspeciales}`
-      );
 
-      const valor = foundFunko.valorDeMercado;
-      let color: ChalkInstance;
-      if (valor > 200) {
-        color = chalk.green;
-      } else if (valor >= 150) {
-        color = chalk.yellow;
-      } else if (valor >= 100) {
-        color = chalk.blue;
-      } else {
-        color = chalk.red;
-      }
-      console.log(`Valor de mercado: ${color.bold(`$${valor.toFixed(2)}`)}`);
-      return true
-    } catch (err) {
+      const mensaje = JSON.stringify({id_: id, nombre: foundFunko.nombre, descripcion: foundFunko.descripcion, tipo: foundFunko.tipo, genero: foundFunko.genero, franquicia: foundFunko.franquicia, numero: foundFunko.numero, exclusivo: foundFunko.exclusivo, caracteristicasEspeciales: foundFunko.caracteristicasEspeciales, valorDeMercado: foundFunko.valorDeMercado })
+
+      return [true, mensaje]
+    }else {
       console.log(chalk.red(`No existe un Funko con ID ${id} en la lista.`));
-      return false
+      return [false, '']
     }
+
   }
 }

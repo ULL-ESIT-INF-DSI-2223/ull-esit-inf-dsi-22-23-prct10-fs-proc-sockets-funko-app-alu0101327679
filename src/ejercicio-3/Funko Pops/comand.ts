@@ -11,7 +11,7 @@ import { hideBin } from "yargs/helpers";
  */
 yargs(hideBin(process.argv))
   /**
-   * Comando para almacenar un Funko en la coleccion de un usuario
+   * Comando para mostrar un Funko en la coleccion de un usuario
    */
   .command(
     "mostrar",
