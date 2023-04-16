@@ -8,6 +8,9 @@ export type ResponseType = {
   funkoPops?: Funko[];
 };
 
+/**
+ * Servidor TCP que escucha en el puerto 60300
+ */
 net
   .createServer((connection) => {
     console.log("Client connected.");
@@ -15,10 +18,14 @@ net
     connection.on("end", () => {
       console.log("Client disconnected.");
     });
-
+    /**
+     * Recibe un mensaje del cliente y lo imprime en la consola.
+     */
     connection.on("data", (data) => {
       const mensaje = JSON.parse(data.toString());
-      
+      /**
+       * Según el tipo de mensaje que reciba, se ejecutará una acción u otra.
+       */
       switch (mensaje.type) {
         case "add":
           console.log("add");
@@ -74,6 +81,9 @@ net
       connection.end()
     });
   })
+  /**
+   * Escucha en el puerto 60300
+   */
   .listen(60300, () => {
     console.log("Waiting for clients to connect.");
   });
