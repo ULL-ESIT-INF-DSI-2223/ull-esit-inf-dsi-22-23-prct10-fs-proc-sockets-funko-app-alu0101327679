@@ -2,51 +2,88 @@ import chalk, { ChalkInstance } from "chalk";
 import fs from "fs";
 import { watchFile } from 'fs';
 import { spawn } from 'child_process';
+import EventEmitter from "events";
 
 export class SiPipe {
   constructor() {
     // console.log('SiPipe');
   }
 
-  contarLineas(fichero: string){
+  contarLineas(fichero: string): EventEmitter {
     const catProcess = spawn('cat', [fichero]);
     const wcProcess = spawn('wc', ['-l']);
-
+    const emitter = new EventEmitter();
+  
     catProcess.stdout.pipe(wcProcess.stdin);
-
+  
     wcProcess.stdout.on('data', (data) => {
-      console.log(chalk.white(`File ${fichero} has ${chalk.bold.green(data.toString().trim())} lines`));
-    })
-
+      const lineas = parseInt(data.toString().trim(), 10);
+      emitter.emit('lineas', lineas);
+    });
+  
+    // wcProcess.stderr.on('data', (error) => {
+    //   emitter.emit('error', new Error(error.toString()));
+    // });
+  
+    // wcProcess.on('exit', (code) => {
+    //   if (code !== 0) {
+    //     emitter.emit('error', new Error(`Failed to run wc: ${code}`));
+    //   }
+    // });
+  
+    return emitter;
   }
 
   contarPalabras(fichero: string){
     const catProccess = spawn('cat', [fichero]);
     const wcProcess = spawn('wc', ['-w']);
-
+    const emitter = new EventEmitter();
+  
     catProccess.stdout.pipe(wcProcess.stdin);
-
+  
     wcProcess.stdout.on('data', (data) => {
-      console.log(chalk.white(`File ${fichero} has ${chalk.bold.green(data.toString().trim())} words`));
-    })
+      const palabras = parseInt(data.toString().trim(), 10);
+      emitter.emit('palabras', palabras);
+    });
+  
+    // wcProcess.stderr.on('data', (error) => {
+    //   emitter.emit('error', new Error(error.toString()));
+    // });
+  
+    // wcProcess.on('exit', (code) => {
+    //   if (code !== 0) {
+    //     emitter.emit('error', new Error(`Failed to run wc: ${code}`));
+    //   }
+    // });
+  
+    return emitter;
   }
 
   contarCaracteres(fichero: string){
     const catProcess = spawn('cat', [fichero]);
     const wcProcess = spawn('wc', ['-c']);
-
+    const emitter = new EventEmitter();
+  
     catProcess.stdout.pipe(wcProcess.stdin);
-
+  
     wcProcess.stdout.on('data', (data) => {
-      console.log(chalk.white(`File ${fichero} has ${chalk.bold.green(data.toString().trim())} characters`));
-    })
+      const caracteres = parseInt(data.toString().trim(), 10);
+      emitter.emit('caracteres', caracteres);
+    });
+  
+    // wcProcess.stderr.on('data', (error) => {
+    //   emitter.emit('error', new Error(error.toString()));
+    // });
+  
+    // wcProcess.on('exit', (code) => {
+    //   if (code !== 0) {
+    //     emitter.emit('error', new Error(`Failed to run wc: ${code}`));
+    //   }
+    // });
+  
+    return emitter;
   }
 
-  contarTodo(fichero: string){
-    this.contarLineas(fichero)
-    this.contarPalabras(fichero)
-    this.contarCaracteres(fichero)
-  }
 }
 
 /**

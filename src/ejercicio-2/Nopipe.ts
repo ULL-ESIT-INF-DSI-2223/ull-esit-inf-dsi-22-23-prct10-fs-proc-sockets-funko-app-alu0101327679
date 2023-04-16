@@ -81,15 +81,15 @@ export class NoPipe {
    * @param fichero nombre del fichero
    * @returns mensaje con el numero de lineas, palabras y caracteres
    */
-  contarTodo(fichero: string): string{
-    let resultado: string = ''
-    if(!fs.existsSync(fichero)){
-      console.log(chalk.red.bold(`El fichero ${fichero} no existe`));
-      return `El fichero ${fichero} no existe`
-    }
-    resultado += this.contarLineas(fichero) + '\n';
-    resultado += this.contarPalabras(fichero) + '\n';
-    resultado += this.contarCaracteres(fichero);
-    return resultado;
-  }
+  // contarTodo(fichero: string): string{
+  //   let resultado: string = ''
+  //   if(!fs.existsSync(fichero)){
+  //     console.log(chalk.red.bold(`El fichero ${fichero} no existe`));
+  //     return `El fichero ${fichero} no existe`
+  //   }
+  //   resultado += this.contarLineas(fichero) + '\n';
+  //   resultado += this.contarPalabras(fichero) + '\n';
+  //   resultado += this.contarCaracteres(fichero);
+  //   return resultado;
+  // }
 }

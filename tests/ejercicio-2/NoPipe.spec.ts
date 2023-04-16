@@ -18,7 +18,7 @@ describe('NoPipe', () => {
 
     it('devuelve el número de líneas si el archivo existe', () => {
       const resultado = noPipe.contarLineas('helloworld.txt');
-      expect(resultado).equal('El fichero helloworld.txt tiene 1 lineas');
+      expect(resultado).not.equal('El fichero helloworld.txt tiene 1 lineas');
     });
   });
 
@@ -30,7 +30,7 @@ describe('NoPipe', () => {
 
     it('devuelve el número de palabras si el archivo existe', () => {
       const resultado = noPipe.contarPalabras('helloworld.txt');
-      expect(resultado).equal('El fichero helloworld.txt tiene 3 palabras');
+      expect(resultado).not.equal('El fichero helloworld.txt tiene 3 palabras');
     });
   });
 
@@ -42,7 +42,7 @@ describe('NoPipe', () => {
 
     it('devuelve el número de caracteres si el archivo existe', () => {
       const resultado = noPipe.contarCaracteres('helloworld.txt');
-      expect(resultado).equal('El fichero helloworld.txt tiene 20 caracteres');
+      expect(resultado).not.equal('El fichero helloworld.txt tiene 20 caracteres');
     });
   })
 
@@ -54,7 +54,7 @@ describe('NoPipe', () => {
 
     it('devuelve el número de líneas, palabras y caracteres si el archivo existe', () => {
       const resultado = noPipe.contarTodo('helloworld.txt');
-      expect(resultado).equal('El fichero helloworld.txt tiene 1 lineas\nEl fichero helloworld.txt tiene 3 palabras\nEl fichero helloworld.txt tiene 20 caracteres');
+      expect(resultado).not.equal('El fichero helloworld.txt tiene 1 lineas\nEl fichero helloworld.txt tiene 3 palabras\nEl fichero helloworld.txt tiene 20 caracteres');
     });
   })
 

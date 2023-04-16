@@ -30,20 +30,23 @@
 
 # Ejercicio 1
 
-Traza de ejecución:
+ - Traza de ejecución con 2 cambios:
 
-1. El usuario ejecuta el programa con el comando "node program.ts helloworld.txt"
-2. El programa comprueba si se han pasado exactamente 3 argumentos en la línea de comandos. En este caso, sí se han pasado exactamente 3 argumentos, por lo que el programa continúa.
-3. El programa utiliza la función access para comprobar si el archivo helloworld.txt existe. Si existe, se muestra un mensaje en la consola indicando que se está observando el archivo.
-4. El programa utiliza la función watch para observar el archivo helloworld.txt en busca de cambios.
-5. El programa muestra un mensaje en la consola indicando que el archivo helloworld.txt ya no se está observando.
-6. El usuario modifica el archivo helloworld.txt.
-7. La función watch detecta el cambio en el archivo helloworld.txt y emite un evento de cambio.
-8. Se agrega un manejador de eventos a la cola de manejadores para el evento de cambio del archivo helloworld.txt.
-9. El manejador de eventos para el evento de cambio del archivo helloworld.txt se ejecuta y muestra un mensaje en la consola indicando que el archivo helloworld.txt ha sido modificado.
-10. El usuario modifica el archivo helloworld.txt de nuevo.
-11. La función watch detecta el cambio en el archivo helloworld.txt y emite otro evento de cambio.
-12. Se agrega otro manejador de eventos a la cola de manejadores para el evento de cambio del archivo helloworld.txt.
-13. El manejador de eventos para el evento de cambio del archivo helloworld.txt se ejecuta de nuevo y muestra otro mensaje en la consola indicando que el archivo helloworld.txt ha sido modificado.
+Cuando el usuario ejecuta el comando "node program.ts helloworld.txt", se cmprueba si se han pasado correctamente los 3 argumentos necesarios por la línea de comandos.
+En caso afirmativo, el programa continúa su ejecución. 
+A continuación el programa comprueba la existencia del archivo "helloworld", en caso afirmativo prosigue su ejecución. 
+De ahora en adelante el programa vigilará el archivo mediante la funcion watch, y procede a imprimir por pantalla que el archivo ya no está siendo observado.
+Tras la primera modificación del archivo, la funcion watch detecta unc ambio y emite un evento de tipo cambio.
+Ahora se agrega a la cola de manejadores un manejador de eventos, para el evento de cambio del archivo helloworld.
+El manejador de eventos para el evento de cambio y lo ejecuta, mostrando por consola un mensaje informando que el archivo ha sido modificado.
+Tras la segunda modificación del archivo, la funcion watch detecta un cambio y emite un evento de tipo cambio.
+Se agrega otro manejador de eventos a la cola de manejadores para el evento de cambio.
+Y el manejador de eventos para el el evento de cambio y lo ejecuta, mostrado por pantalla un mensaje informando que el archivo ha sido modificado.
+
+- ¿Qué hace la función access? 
+  La función access se utiliza para verificar si un archivo o directorio existe y si el usuario actual tiene permiso de acceso para realizar la operación especificada en el archivo o directorio. La función access toma tres argumentos: path (cadena), mode (entero) y callback (función de devolución de llamada)
+
+- ¿Para qué sirve el objeto constants?
+    El objeto constants contiene constantes que representan modos de acceso para archivos y directorios. Estas constantes se utilizan con las funciones proporcionadas por el módulo "fs", como access, chmod, stat, entre otras.
 
 # Ejercicio 2
